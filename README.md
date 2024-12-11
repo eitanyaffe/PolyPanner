@@ -66,6 +66,9 @@ Clone the repository from github, and compile PolyPanner:
 cd PolyPanner
 make
 ```
+### Dependencies
+
+There are several helper scripts written in Perl and R. These scripts were tested on Perl versions 5.30.3 and 5.30.0, and on R versions 4.3.1 and 4.4.1, but they are likely compatible with other comparable versions.
 
 ### Validate installation
 
