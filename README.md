@@ -89,7 +89,7 @@ make test -n
 
 The standard PolyPanner workflow is detailed below. The syntax of PolyPanner commands and utility scripts, including user-defined parameters, is documented [here](docs/syntax.md). 
 
-PolyPanner uses an intermediate binary represention of mapped reads, which we call a POP format. Users do interact directly with POP files, but instead, the PolyPanner program generates these files from mapped reads and outputs dynamic variants in a tab-delimited format.
+PolyPanner uses an intermediate binary representation of mapped reads, referred to as the POP format. Users do not interact directly with POP files; instead, PolyPanner generates these files from mapped reads and outputs dynamic variants in a tab-delimited format.
 
 ### 1. Input
 
