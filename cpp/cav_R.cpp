@@ -264,7 +264,6 @@ Rcpp::XPtr<map< string, set< Segment > > > cav_build_segments(DataFrame df)
   return result;
 }
 
-
 // [[Rcpp::export]]
 DataFrame cav_annotate_sites(Rcpp::XPtr<VariationSet> varset,
 			     List vsets,

@@ -6,10 +6,10 @@ all: bin/polypanner
 
 UNAME_S:=$(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-CFLAGS=-Wall -Wno-write-strings -std=c++0x -fext-numeric-literals
+CFLAGS=-Wall -Wno-write-strings -std=c++14 -fext-numeric-literals
 endif
 ifeq ($(UNAME_S),Darwin)
-CFLAGS=-Wall -Wno-write-strings -std=c++0x \
+CFLAGS=-Wall -Wno-write-strings -std=c++14 \
 -Wno-pragmas
 endif
 
