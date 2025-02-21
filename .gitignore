@@ -3,3 +3,4 @@ bin/*
 output/*
 x.cpp
 *.o
+.DS_Store
