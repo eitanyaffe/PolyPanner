@@ -37,6 +37,7 @@ void usage(const char* name)
   fprintf(stderr, "  merge: Merge multiple POPs (adding)\n");
   fprintf(stderr, "  combine: Combine POPs from different subjects\n");
   fprintf(stderr, "  restrict: Restrict POP to a set of contigs\n");
+  fprintf(stderr, "  diff: Compare two POP files and report differences\n");
   fprintf(stderr, "  dump: Dump single POP into tab-delimited tables (for debugging)\n");
   fprintf(stderr, "  dump_scores: Dump local refinement scores along contigs (for debugging)\n");
   fprintf(stderr, "  read_query: Extract reads covering specific segment (for debugging)\n");
@@ -99,6 +100,8 @@ int main(int argc, char **argv)
     rc = dump_local_scores_main(name.c_str(), argc-1, argv+1);
   } else if (command == "read_query") {
     rc = read_query_main(name.c_str(), argc-1, argv+1);
+  } else if (command == "diff") {
+    rc = diff_main(name.c_str(), argc-1, argv+1);
   } else {
     printf("unknown command: %s\n", command.c_str());
     usage(argv[0]);

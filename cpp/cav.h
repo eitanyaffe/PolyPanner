@@ -3,6 +3,7 @@ int merge_main(const char* name, int argc, char **argv);
 int combine_main(const char* name, int argc, char **argv);
 int filter_main(const char* name, int argc, char **argv);
 int restrict_main(const char* name, int argc, char **argv);
+int diff_main(const char* name, int argc, char **argv);
 
 // refine output of binner such as metaBAT2
 int refine_bins_main(const char* name, int argc, char **argv);

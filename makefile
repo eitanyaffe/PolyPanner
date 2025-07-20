@@ -4,16 +4,38 @@ all: bin/polypanner
 # flags
 ###############################################################################################
 
+# Ubuntu/Debian users: install required packages with:
+# sudo apt-get update  
+# sudo apt-get install build-essential libboost-all-dev libgsl-dev
+
 UNAME_S:=$(shell uname -s)
+
 ifeq ($(UNAME_S),Linux)
 CFLAGS=-Wall -Wno-write-strings -std=c++14 -fext-numeric-literals
-endif
-ifeq ($(UNAME_S),Darwin)
-CFLAGS=-Wall -Wno-write-strings -std=c++14 \
--Wno-pragmas
+LDFLAGS=-pthread -lgsl -lgslcblas -lboost_iostreams
 endif
 
-LDFLAGS=-pthread -lgsl -lgslcblas -lboost_iostreams
+ifeq ($(UNAME_S),Darwin)
+UNAME_M:=$(shell uname -m)
+
+# Apple Silicon (ARM64) - uses Homebrew in /opt/homebrew
+ifeq ($(UNAME_M),arm64)
+CFLAGS=-Wall -Wno-write-strings -std=c++14 -Wno-pragmas \
+-I/opt/homebrew/opt/boost/include -I/opt/homebrew/opt/gsl/include
+LDFLAGS=-pthread -lgsl -lgslcblas -lboost_iostreams \
+-L/opt/homebrew/opt/boost/lib -L/opt/homebrew/opt/gsl/lib
+endif
+
+# Intel x86_64 - uses Homebrew in /usr/local  
+ifeq ($(UNAME_M),x86_64)
+CFLAGS=-Wall -Wno-write-strings -std=c++14 -Wno-pragmas \
+-I/usr/local/opt/boost/include -I/usr/local/opt/gsl/include
+LDFLAGS=-pthread -lgsl -lgslcblas -lboost_iostreams \
+-L/usr/local/opt/boost/lib -L/usr/local/opt/gsl/lib
+endif
+
+endif
+
 CC=g++
 
 ###############################################################################################
@@ -27,6 +49,7 @@ Variation.h VariationSet.h cav.h Params.h util.h BinMatrix.h Filter.h Resource.h
 RefineLocal.h)
 
 OBJ=$(addprefix obj/,\
+cav_diff.o \
 cav_sites.o \
 cav_fasta.o \
 cav_stats.o \

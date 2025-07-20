@@ -160,3 +160,8 @@ Fields:
 - bin: Final bin identifier, after bin trimming.
 
 See ```output/test/seg_bin_final``` in the test output for an example.
+
+## Development version (v1.0.3)
+
+- Added `polypanner diff -ifn1 <file1.cav> -ifn2 <file2.cav>` command for comparing POP files
+- Improved cross-platform makefile support for macOS (Apple Silicon/Intel) and Linux
