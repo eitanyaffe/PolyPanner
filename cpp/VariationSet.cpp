@@ -9,7 +9,7 @@ using namespace std;
 // Variation Set
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VariationSet::VariationSet() : m_read_count(0), m_max_read_length(0) {}
+VariationSet::VariationSet() : m_read_count(0), m_max_read_length(0), m_total_read_length(0) {}
 
 VariationSet::VariationSet(const map<string, int>& contig_map) : VariationSet()
 {
@@ -446,7 +446,7 @@ int VariationSet::get_var_count(string& contig, int& coord, Variation& var)
   return coord_vars[var];
 }
 
-inline void assert_vcoord(vector<int> v, int coord)
+inline void assert_vcoord(const vector<int>& v, int coord)
 {
   massert(coord >= 0 && coord < (int)v.size(),
 	  "coordinate %d out of range, length of vector: %d", coord, v.size());
@@ -487,17 +487,17 @@ int VariationSet::get_coverage_noise(const string contig, const int coord)
 // call after all read loaded, to compute mean read length
 void VariationSet::reads_done()
 {
-  double N = m_read_length_vec.size();
-  m_mean_read_length =
-    std::accumulate(m_read_length_vec.begin(), m_read_length_vec
-		    .end(), 0.0) / N;
-  m_read_length_vec.resize(0);
+  if (m_read_count > 0) {
+    m_mean_read_length = (double)m_total_read_length / m_read_count;
+  } else {
+    m_mean_read_length = 0.0;
+  }
   init_cov_cs();
 }
 
 void VariationSet::add_read(string contig, int coord, int length)
 {
-  m_read_length_vec.push_back(length);
+  m_total_read_length += length;
   m_read_count++;
   if (length > m_max_read_length)
     m_max_read_length = length;

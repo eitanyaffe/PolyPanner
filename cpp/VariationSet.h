@@ -41,8 +41,8 @@ class VariationSet {
   int m_read_count;
   int m_max_read_length;
 
-    // keep all read lengths only during construction, streaming only the mean length
-  vector<int> m_read_length_vec;
+  // track total length for efficient mean calculation
+  long long m_total_read_length;
   double m_mean_read_length;
 
   void save_map_count_vector(boost::iostreams::filtering_ostream& out, map<string, vector<int> >& map_count);
