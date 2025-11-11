@@ -27,6 +27,7 @@ void cov_mat_init_params(const char* name, int argc, char **argv, Parameters& pa
   params.add_parser("actual_nts", new ParserBoolean("Actual nts or random nts used to avoid TNF usage)", true), true);
   params.add_parser("ofn_fasta", new ParserFilename("Output fasta file"), true);
   params.add_parser("ofn_mat", new ParserFilename("Output matrix with segments, bp-coverage and bp-variance"), true);
+  params.add_parser("min_segment_length", new ParserInteger("Minimum segment length", 1000), false);
 
   if (argc == 1) {
     params.usage(name);
@@ -51,6 +52,7 @@ int cov_mat_main(const char* name, int argc, char **argv)
   bool use_random_nts = !params.get_bool("actual_nts");
   string ofn_fa = params.get_string("ofn_fasta");
   string ofn_mat = params.get_string("ofn_mat");
+  int min_segment_length = params.get_int("min_segment_length");
 
   map<string, string> fasta;
   load_fasta(ifn_fasta, fasta);
@@ -99,6 +101,9 @@ int cov_mat_main(const char* name, int argc, char **argv)
     int start = atoi(fields[start_ind].c_str())-1;
     int end = atoi(fields[end_ind].c_str())-1;
     int len = end-start+1;
+
+    if (len < min_segment_length)
+      continue;
 
     // get segment nts
     string nts;
