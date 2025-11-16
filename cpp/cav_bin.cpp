@@ -179,7 +179,8 @@ int bin_main(const char* name, int argc, char **argv)
   bool debug_mode = only_contig != "NA";
   
   vector< string > ifns;
-  read_library_table(ifn_libs, ifns);
+  vector< string > library_ids;
+  read_library_table(ifn_libs, ifns, library_ids);
 
   int nlibs = ifns.size();
   if (max_lib_count > 0 && max_lib_count < nlibs)

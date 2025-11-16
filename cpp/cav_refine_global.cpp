@@ -99,7 +99,8 @@ int refine_global_main(const char* name, int argc, char **argv)
   int min_center_seg_len = params.get_int("min_center_segment_length");
   
   vector< string > ifns;
-  read_library_table(ifn, ifns);
+  vector< string > library_ids;
+  read_library_table(ifn, ifns, library_ids);
 
   int nlibs = ifns.size();
   if (max_lib_count > 0 && max_lib_count < nlibs)

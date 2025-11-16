@@ -215,7 +215,8 @@ int refine_bins_main(const char* name, int argc, char **argv)
   int max_side_length = params.get_int("max_side_length");
   
   vector< string > ifns;
-  read_library_table(ifn_libs, ifns);
+  vector< string > library_ids;
+  read_library_table(ifn_libs, ifns, library_ids);
 
   int nlibs = ifns.size();
 

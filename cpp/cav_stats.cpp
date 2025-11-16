@@ -49,7 +49,8 @@ int cav_stats_main(const char* name, int argc, char **argv)
   string ofn = params.get_string("ofn");
   
   vector< string > ifns;
-  read_library_table(ifn, ifns);
+  vector< string > library_ids;
+  read_library_table(ifn, ifns, library_ids);
 
   int nlibs = ifns.size();
 

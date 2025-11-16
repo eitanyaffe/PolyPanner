@@ -27,6 +27,7 @@ void cov_mat_init_params(const char* name, int argc, char **argv, Parameters& pa
   params.add_parser("actual_nts", new ParserBoolean("Actual nts or random nts used to avoid TNF usage)", true), true);
   params.add_parser("ofn_fasta", new ParserFilename("Output fasta file"), true);
   params.add_parser("ofn_mat", new ParserFilename("Output matrix with segments, bp-coverage and bp-variance"), true);
+  params.add_parser("ofn_lib_map", new ParserFilename("Output library index to library ID mapping file"), false);
   params.add_parser("min_segment_length", new ParserInteger("Minimum segment length", 1000), false);
 
   if (argc == 1) {
@@ -52,13 +53,15 @@ int cov_mat_main(const char* name, int argc, char **argv)
   bool use_random_nts = !params.get_bool("actual_nts");
   string ofn_fa = params.get_string("ofn_fasta");
   string ofn_mat = params.get_string("ofn_mat");
+  string ofn_lib_map = params.get_string("ofn_lib_map");
   int min_segment_length = params.get_int("min_segment_length");
 
   map<string, string> fasta;
   load_fasta(ifn_fasta, fasta);
 
   vector< string > ifns;
-  read_library_table(ifn_cavs, ifns);
+  vector< string > library_ids;
+  read_library_table(ifn_cavs, ifns, library_ids);
 
   int nlibs = ifns.size();
   vector < VariationSet > cavs(nlibs);
@@ -127,7 +130,21 @@ int cov_mat_main(const char* name, int argc, char **argv)
       mat_out << "\t" << mean  << "\t" << var;
     }
     mat_out << endl;
-}
+  }
+  
+  // write library mapping file if requested
+  if (!ofn_lib_map.empty()) {
+    cout << "writing library mapping to " << ofn_lib_map << endl;
+    ofstream lib_map_out(ofn_lib_map.c_str());
+    massert(lib_map_out.is_open(), "could not open file %s", ofn_lib_map.c_str());
+    
+    lib_map_out << "lib_index\tlib_id" << endl;
+    for (int i = 0; i < nlibs; ++i) {
+      lib_map_out << "lib_" << (i+1) << "\t" << library_ids[i] << endl;
+    }
+    
+    lib_map_out.close();
+  }
   
   return 0;
 }

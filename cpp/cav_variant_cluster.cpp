@@ -195,7 +195,8 @@ int variant_cluster_main(const char* name, int argc, char **argv)
   int thread_count = params.get_int("threads");
 
   vector< string > ifns;
-  read_library_table(ifn_libs, ifns);
+  vector< string > library_ids;
+  read_library_table(ifn_libs, ifns, library_ids);
 
   int nlibs = ifns.size();
 

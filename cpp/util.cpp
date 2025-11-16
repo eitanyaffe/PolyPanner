@@ -192,7 +192,7 @@ void read_sites(string fn, map< string, map< int, set< Variation > > >& keys)
   }
 }
 
-void read_library_table(string fn, vector< string >& ifns)
+void read_library_table(string fn, vector< string >& ifns, vector< string >& library_ids)
 {
   cout << "reading table: " << fn << endl;
   ifstream in(fn.c_str());
@@ -200,9 +200,13 @@ void read_library_table(string fn, vector< string >& ifns)
   vector<string> fields;
   char delim = '\t';
 
+  ifns.clear();
+  library_ids.clear();
+
   // parse header
   split_line(in, fields, delim);
   int fn_ind = get_field_index("fn", fields);
+  int lib_id_ind = get_field_index("lib_id", fields);
 
   while(in) {
     split_line(in, fields, delim);
@@ -210,6 +214,23 @@ void read_library_table(string fn, vector< string >& ifns)
       break;
     string ifn = fields[fn_ind];
     ifns.push_back(ifn);
+    
+    // extract library ID if available, otherwise generate from filename
+    if (lib_id_ind >= 0 && lib_id_ind < static_cast<int>(fields.size())) {
+      library_ids.push_back(fields[lib_id_ind]);
+    } else {
+      // fallback: use filename basename without extension
+      string lib_id = ifn;
+      size_t last_slash = lib_id.find_last_of("/\\");
+      if (last_slash != string::npos) {
+        lib_id = lib_id.substr(last_slash + 1);
+      }
+      size_t last_dot = lib_id.find_last_of(".");
+      if (last_dot != string::npos) {
+        lib_id = lib_id.substr(0, last_dot);
+      }
+      library_ids.push_back(lib_id);
+    }
   }
 }
 

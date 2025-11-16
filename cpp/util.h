@@ -34,7 +34,7 @@ string reverse_complement(string seq);
 
 void read_sites(string fn, map< string, map< int, set< Variation > > >& keys);
 
-void read_library_table(string fn, vector< string >& ifns);
+void read_library_table(string fn, vector< string >& ifns, vector< string >& library_ids);
 
 // read contig lengths
 void read_contig_length(string fn, map<string, int>& contig_map);

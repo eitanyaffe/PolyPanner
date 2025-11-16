@@ -214,7 +214,8 @@ int refine_local_main(const char* name, int argc, char **argv)
   bool only_dangles = params.get_bool("only_dangles");
 
   vector< string > ifns;
-  read_library_table(ifn, ifns);
+  vector< string > library_ids;
+  read_library_table(ifn, ifns, library_ids);
 
   int nlibs = ifns.size();
   if (max_lib_count > 0 && max_lib_count < nlibs)

@@ -244,7 +244,8 @@ int sites_main(const char* name, int argc, char **argv)
   read_string_map(ifn_segment_bins, "segment", "bin", bin_map);
   
   vector< string > ifns;
-  read_library_table(ifn_libs, ifns);
+  vector< string > library_ids;
+  read_library_table(ifn_libs, ifns, library_ids);
   
   map< string, map< int, set< Variation > > > vars;
   read_sites(ifn_sites, vars);

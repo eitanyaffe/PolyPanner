@@ -124,7 +124,8 @@ int break_single_main(const char* name, int argc, char **argv)
   string weight_style = params.get_string("weight_style");
 
   vector< string > ifns;
-  read_library_table(ifn, ifns);
+  vector< string > library_ids;
+  read_library_table(ifn, ifns, library_ids);
 
   int nlibs = ifns.size();
   if (max_lib_count > 0 && max_lib_count < nlibs)

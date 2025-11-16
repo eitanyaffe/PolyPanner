@@ -90,7 +90,8 @@ int vcluster_trajectory_main(const char* name, int argc, char **argv)
   string ofn_totals = params.get_string("ofn_totals");
   
   vector< string > ifns;
-  read_library_table(ifn_libs, ifns);
+  vector< string > library_ids;
+  read_library_table(ifn_libs, ifns, library_ids);
 
   int nlibs = ifns.size();
 
